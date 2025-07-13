@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import { runLLM } from "./agent.js";
+import { runAgent } from "./agent.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,13 +11,13 @@ app.use(express.json());
 
 app.post("/api/agent", async (req, res) => {
   try {
-    const { input } = req.body;
-    if (!input) {
+    const { query } = req.body;
+    if (!query) {
       return res
         .status(400)
-        .json({ message: "Missing input in request body." });
+        .json({ message: "Missing query in request body." });
     }
-    const output = await runLLM(input);
+    const output = await runAgent(query);
     res.status(200).json({ output });
   } catch (error) {
     console.log("Error:", error);

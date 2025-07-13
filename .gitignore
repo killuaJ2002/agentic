@@ -29,3 +29,6 @@ test-results/
 
 # Optional: coverage tools
 coverage/
+
+# test files
+test.js

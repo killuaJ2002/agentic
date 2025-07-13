@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@langchain/core": "^0.3.62",
     "@langchain/google-genai": "^0.2.14",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
