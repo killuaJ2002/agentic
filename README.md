@@ -24,6 +24,6 @@ This project uses an **LLM** (via LangChainJS) to extract actionable data from u
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/langchain-agent-api.git
-   cd langchain-agent-api
+   git clone https://github.com/killuaJ2002/agentic.git
+   cd agentic
    ```
