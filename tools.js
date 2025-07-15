@@ -51,7 +51,7 @@ const calender_tool = new DynamicStructuredTool({
       );
     } catch (error) {
       console.error("❌ Error fetching holidays:", error.message);
-      return "Failed to fetch holidays.";
+      return "Failed to fetch holidays";
     }
   },
 });
