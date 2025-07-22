@@ -19,6 +19,7 @@ app.post("/api/agent", async (req, res) => {
         .json({ message: "Missing query in request body." });
     }
     const output = await runAgent(query);
+    console.log(output);
     const fillForm = await fillBookingForm(output);
     return res.status(201).json({ message: "Ticket booked" });
   } catch (error) {

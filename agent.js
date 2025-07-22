@@ -30,11 +30,17 @@ const prompt = ChatPromptTemplate.fromMessages([
     "system",
     `You are a train ticket booking assistant. Your job is to extract travel details from user queries.
 
-If the user mentions a vague or holiday-related date (e.g., "on Janmashtami", "next Diwali"), use the available tools to resolve it to a specific date.
+If the user mentions a vague or holiday-related date (e.g., "on Janmashtami", "next Diwali", "by National Day"), resolve it to a specific date.
 
-Always return your output in this format:\n\n${escapeBraces(
-      formatInstructions
-    )}`,
+If the query contains multiple locations (such as both a source and a destination), prioritize looking for the holiday in the **departure/source location** first. If it's not found there, check the **destination** location. Use the available tools to query holidays in both locations if required — calling tools more than once is allowed.
+
+If the resolved holiday is already in the past (compared to the current date), assume the user is referring to the same holiday in the **next year**.
+
+If you need the current date or holiday information, use the appropriate tools.
+
+Always return your output in this format:
+
+${escapeBraces(formatInstructions)}`,
   ],
   ["placeholder", "{chat_history}"],
   ["human", "{input}"],
@@ -44,8 +50,8 @@ Always return your output in this format:\n\n${escapeBraces(
 // Step 4: Set up LLM
 const llm = new ChatGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_API_KEY,
-  model: "gemini-2.5-flash",
-  temperature: 0.5,
+  model: "gemini-2.5-pro",
+  temperature: 0.8,
 });
 
 // Step 5: Create agent with tools
