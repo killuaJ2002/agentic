@@ -24,9 +24,10 @@ const bookTicket = async () => {
     await page.locator('li[data-cy="menu_Flights"]').click();
     // Selecting one way trip
     await page.locator('li[data-cy="oneWayTrip"]').click();
+
     // Selecting From city
     await page.locator('label[for="fromCity"]').click();
-    await page.locator('input[placeholder="From"]').fill("Silchar");
+    await page.locator('input[placeholder="From"]').fill("jaipur");
     // waiting for suggestion list to appear
     await page.waitForSelector(".react-autosuggest__suggestions-list");
     // select the first li
@@ -34,10 +35,19 @@ const bookTicket = async () => {
       .locator(".react-autosuggest__suggestions-list li")
       .first()
       .click();
+
+    // Selecting To city
+    await page.locator('label[for="toCity"]').click();
+    await page.locator('input[placeholder="To"]').fill("goa");
+    page.waitForSelector(".react-autosuggest__suggestions-list");
+    await page
+      .locator(".react-autosuggest__suggestions-list li")
+      .first()
+      .click();
   } catch (error) {
     console.log(error);
   } finally {
-    await page.waitForTimeout(3000); // Wait 3 sec visibly
+    await page.waitForTimeout(2000);
     await browser.close();
   }
 };
