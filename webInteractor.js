@@ -1,39 +1,27 @@
 import { chromium } from "playwright";
 
-const fillBookingForm = async ({ from, to, date }) => {
+const bookTicket = async () => {
   const browser = await chromium.launch({ headless: false });
   const page = await browser.newPage();
 
-  // Set up timeout to ensure browser closes after 3 seconds
-  const timeoutId = setTimeout(async () => {
-    console.log("Timeout reached - closing browser");
-    await browser.close();
-  }, 3000);
-
   try {
-    await page.goto("http://127.0.0.1:5500/index.html");
+    await page.goto("https://www.makemytrip.com/");
+    const closeBtn = page.locator(".commonModal__close");
+    await closeBtn.waitFor({ state: "visible", timeout: 3000 });
+    await closeBtn.click();
+    await page.locator(".searchCity").click();
+    const fromInput = page.locator("input[placeholder='From']");
+    await fromInput.fill("Dehradun");
 
-    await page.fill("#fromInput", from);
-    await page.fill("#toInput", to);
-    await page.fill("#dateInput", date);
-
-    await Promise.all([
-      page.waitForResponse(
-        (res) => res.url().includes("/api/data") && res.status() === 201
-      ),
-      page.click('button[type="submit"]'),
-    ]);
+    await page.waitForSelector("ul[role='listbox'] li[role='option']"); // Wait for suggestions
+    await page.locator("ul[role='listbox'] li[role='option']").first().click();
   } catch (error) {
-    console.log("Error occurred:", error.message);
+    console.log(error);
   } finally {
-    // Clear the timeout and close browser
-    clearTimeout(timeoutId);
-
-    // Double-check that browser is closed
-    if (browser.isConnected()) {
+    setTimeout(async () => {
       await browser.close();
-    }
+    }, 3000);
   }
 };
 
-export { fillBookingForm };
+bookTicket();
