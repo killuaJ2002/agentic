@@ -260,6 +260,13 @@ const bookTicket = async () => {
     targetDate.setDate(targetDate.getDate() + 35);
 
     await selectDateOnCalendar(page, targetDate);
+
+    // Selecting traverllers and class
+    await page.locator('label[for="travellers"]').click();
+    await page.locator('button[data-cy="travellerApplyBtn"]').click();
+    await page.waitForTimeout(5000);
+    await page.locator(".primaryBtn.font24.latoBold.widgetSearchBtn").click();
+    await page.waitForTimeout(10000);
   } catch (error) {
     console.log(error);
   } finally {
