@@ -1,5 +1,8 @@
 import { chromium } from "playwright";
 
+// Function to create random delays
+const randomDelay = () => Math.floor(Math.random() * 2000) + 1000;
+
 // Function to handle date selection
 async function selectDateOnCalendar(page, targetDate) {
   // Validate date is in the future
@@ -220,6 +223,7 @@ const bookTicket = async () => {
     });
 
     // close popups if appear
+    await page.waitForTimeout(randomDelay());
     const closeBtn = page.locator(".commonModal__close");
     if (await closeBtn.isVisible({ timeout: 5000 })) {
       await closeBtn.click();
@@ -229,11 +233,14 @@ const bookTicket = async () => {
     }
 
     // Selecting flight tab
+    await page.waitForTimeout(randomDelay());
     await page.locator('li[data-cy="menu_Flights"]').click();
     // Selecting one way trip
+    await page.waitForTimeout(randomDelay());
     await page.locator('li[data-cy="oneWayTrip"]').click();
 
     // Selecting From city
+    await page.waitForTimeout(randomDelay());
     await page.locator('label[for="fromCity"]').click();
     await page.locator('input[placeholder="From"]').fill("jaipur");
     // waiting for suggestion list to appear
@@ -245,6 +252,7 @@ const bookTicket = async () => {
       .click();
 
     // Selecting To city
+    await page.waitForTimeout(randomDelay());
     await page.locator('label[for="toCity"]').click();
     await page.locator('input[placeholder="To"]').fill("goa");
     page.waitForSelector(".react-autosuggest__suggestions-list");
@@ -254,6 +262,7 @@ const bookTicket = async () => {
       .click();
 
     // Selecting departure date
+    await page.waitForTimeout(randomDelay());
     await page.locator('label[for="departure"]').click({ force: true });
 
     const targetDate = new Date();
@@ -262,11 +271,12 @@ const bookTicket = async () => {
     await selectDateOnCalendar(page, targetDate);
 
     // Selecting traverllers and class
+    await page.waitForTimeout(randomDelay());
     await page.locator('label[for="travellers"]').click();
     await page.locator('button[data-cy="travellerApplyBtn"]').click();
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(randomDelay());
     await page.locator(".primaryBtn.font24.latoBold.widgetSearchBtn").click();
-    await page.waitForTimeout(10000);
+    await page.waitForTimeout(randomDelay());
   } catch (error) {
     console.log(error);
   } finally {
